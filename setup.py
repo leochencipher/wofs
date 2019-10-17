@@ -22,27 +22,8 @@ def read(*parts):
         return fp.read()
 
 
-class PyTest(Command):
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import sys, subprocess
-        errno = subprocess.call([sys.executable, 'runtests.py'])
-        raise SystemExit(errno)
-
-
-my_cmdclass = versioneer.get_cmdclass()
-my_cmdclass['test'] = PyTest
 
 setup(name='wofs',
-      version=versioneer.get_version(),
-      cmdclass=my_cmdclass,
       description='Water Observations from Space - Digital Earth Australia',
       long_description=open('README.rst', 'r').read(),
       license='Apache License 2.0',
@@ -52,6 +33,8 @@ setup(name='wofs',
       maintainer_email='',
       packages=find_packages(),
       data_files=[('wofs/config', config_files)],
+      use_scm_version=True,
+      setup_requires=['setuptools_scm'],
       install_requires=[
           'datacube',
       ],
